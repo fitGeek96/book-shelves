@@ -3,11 +3,13 @@ import { update } from "../BooksAPI";
 
 class Book extends Component {
   handleChange = async (e) => {
+    e.persist();
     try {
       const newShelf = e.target.value;
       const book = this.props;
       const allShelfs = await update(book, newShelf);
       this.props.moveBook(book, newShelf, allShelfs);
+
     } catch (err) {
       console.log(err);
     }
@@ -24,7 +26,9 @@ class Book extends Component {
                 style={{
                   width: 128,
                   height: 193,
-                  backgroundImage: `url(${this.props.imageLinks.thumbnail})`,
+                  backgroundImage: `url(${
+                    this.props.imageLinks ? this.props.imageLinks.thumbnail : ""
+                  })`,
                 }}
               ></div>
               <div className="book-shelf-changer">
@@ -40,7 +44,7 @@ class Book extends Component {
               </div>
             </div>
             <div className="book-title">{this.props.title}</div>
-            <div className="book-authors">{this.props.authors[0]}</div>
+            <div className="book-authors">{this.props.authors ? this.props.authors[0] : ""}</div>
           </div>
         </li>
       </div>
